@@ -1,7 +1,7 @@
-# Crée un plateau vide
+# Creation de terrain vide
 board = [" " for _ in range(9)]
 
-# Affiche le plateau
+# Affichage du terrein du jeux
 def display_board(board):
     print()
     print(" " + board[0] + " | " + board[1] + " | " + board[2])
@@ -11,7 +11,7 @@ def display_board(board):
     print(" " + board[6] + " | " + board[7] + " | " + board[8])
     print()
 
-# Demande au joueur de choisir une case
+# le code pour que le joueur choisi uen case
 def player_input(board, player):
     while True:
         try:
@@ -26,7 +26,7 @@ def player_input(board, player):
         except ValueError:
             print("❌ Entrée invalide. Tu dois taper un nombre.")
 
-# Vérifie si le joueur a gagné
+# Vérification du joueur si il a gagner
 def check_win(board, player):
     win_combinations = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],  # lignes
@@ -38,11 +38,11 @@ def check_win(board, player):
             return True
     return False
 
-# Vérifie si le plateau est plein
+# on verefier si le plateaux est plein
 def check_draw(board):
     return " " not in board
 
-# Fonction principale qui fait tourner le jeu
+# la fonction qui fait tourner le jeux
 def play():
     current_player = "X"
     game_over = False
@@ -62,5 +62,5 @@ def play():
         else:
             current_player = "O" if current_player == "X" else "X"  # Change de joueur
 
-# Lancer le jeu
+# exe game
 play()
