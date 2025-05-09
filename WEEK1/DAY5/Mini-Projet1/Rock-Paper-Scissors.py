@@ -1,36 +1,50 @@
-# rock-paper-scissors.py
+import random
 
-from game import Game
+def get_user_choice():
+    while True:
+        choice = input("Choose rock, paper, or scissors: ").lower()
+        if choice in ['rock', 'paper', 'scissors']:
+            return choice
+        print("Invalid input.")
 
-def get_user_menu_choice():
-    print("\nMenu:")
-    print("(g) Play a new game")
-    print("(x) Show scores and exit")
-    choice = input("Your choice: ").strip().lower()
-    while choice not in ['g', 'x']:
-        print("Invalid choice. Please enter 'g' or 'x'.")
-        choice = input("Your choice: ").strip().lower()
-    return choice
+def get_computer_choice():
+    return random.choice(['rock', 'paper', 'scissors'])
 
-def print_results(results):
-    print("\nGame Results:")
-    print(f"You won {results['win']} times")
-    print(f"You lost {results['loss']} times")
-    print(f"You drew {results['draw']} times")
-    print("\nThank you for playing!")
+def get_result(user, computer):
+    if user == computer:
+        return 'draw'
+    elif (user == 'rock' and computer == 'scissors') or \
+         (user == 'paper' and computer == 'rock') or \
+         (user == 'scissors' and computer == 'paper'):
+        return 'win'
+    return 'loss'
+
+def play_game():
+    user = get_user_choice()
+    computer = get_computer_choice()
+    result = get_result(user, computer)
+    print(f"You chose {user}, computer chose {computer}. Result: {result.upper()}")
+    return result
 
 def main():
-    results = {'win': 0, 'loss': 0, 'draw': 0}
+    scores = {'win': 0, 'loss': 0, 'draw': 0}
 
     while True:
-        choice = get_user_menu_choice()
+        print("\n(g) Play  |  (x) Exit and Show Scores")
+        choice = input("Your choice: ").lower()
         if choice == 'g':
-            game = Game()
-            result = game.play()
-            results[result] += 1
+            while True:
+                result = play_game()
+                scores[result] += 1
+                again = input("Play again? (y/n): ").lower()
+                if again != 'y':
+                    break
         elif choice == 'x':
-            print_results(results)
+            print(f"\nFinal Scores: Wins: {scores['win']} | Losses: {scores['loss']} | Draws: {scores['draw']}")
+            print("Thanks for playing!")
             break
+        else:
+            print("Invalid option.")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
