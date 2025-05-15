@@ -171,3 +171,58 @@ WHERE b.title = 'Alice In Wonderland';
 DELETE FROM Student WHERE name = 'John';
 
 
+--Daily Challenge: Items and Orders
+--1) : 
+
+CREATE TABLE items (
+    item_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price NUMERIC(10,2) NOT NULL  
+);
+
+CREATE TABLE product_orders (
+    order_id SERIAL PRIMARY KEY,
+    customer_name VARCHAR(100) NOT NULL,
+    item_id INT NOT NULL,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (item_id) REFERENCES items(item_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+--2) : 
+
+CREATE TABLE product_orders (
+    order_id SERIAL PRIMARY KEY,
+    customer_name VARCHAR(100) NOT NULL,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE items (
+    item_id SERIAL PRIMARY KEY,
+    order_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price NUMERIC(10,2) NOT NULL,
+    
+    FOREIGN KEY (order_id) REFERENCES product_orders(order_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+--3) : 
+CREATE OR REPLACE FUNCTION get_total_price(p_order_id INT)
+RETURNS NUMERIC AS $$
+DECLARE
+    total NUMERIC;
+BEGIN
+    SELECT SUM(price)
+    INTO total
+    FROM items
+    WHERE order_id = p_order_id;
+
+    RETURN COALESCE(total, 0); -- retourne 0 si aucun article trouvé
+END;
+$$ LANGUAGE plpgsql;
+
