@@ -136,3 +136,161 @@ WHERE c.first_name = 'Matthew' AND c.last_name = 'Mahan'
   AND (f.title ILIKE '%boat%' OR f.description ILIKE '%boat%')
 ORDER BY f.replacement_cost DESC
 LIMIT 1;
+
+--Exercice Xp Gold : 
+--Exercise 1 : DVD Rentals
+--1) : 
+SELECT *
+FROM rental
+WHERE return_date IS NULL;
+
+--2) : 
+SELECT c.customer_id, c.first_name, c.last_name, COUNT(r.rental_id) AS not_returned_count
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+WHERE r.return_date IS NULL
+GROUP BY c.customer_id, c.first_name, c.last_name;
+
+--3) :SELECT f.title
+FROM film f
+JOIN film_actor fa ON f.film_id = fa.film_id
+JOIN actor a ON fa.actor_id = a.actor_id
+JOIN film_category fc ON f.film_id = fc.film_id
+JOIN category c ON fc.category_id = c.category_id
+WHERE a.first_name = 'Joe' AND a.last_name = 'Swank'
+  AND c.name = 'Action';
+
+--Exercise 2 – Happy Halloween
+--1 ) : 
+SELECT 
+    s.store_id,
+    ci.city,
+    co.country
+FROM store s
+JOIN address a ON s.address_id = a.address_id
+JOIN city ci ON a.city_id = ci.city_id
+JOIN country co ON ci.country_id = co.country_id;
+
+--2) :
+SELECT 
+    s.store_id,
+    SUM(f.length) AS total_minutes,
+    ROUND(SUM(f.length) / 60.0, 2) AS total_hours
+FROM store s
+JOIN inventory i ON s.store_id = i.store_id
+JOIN film f ON i.film_id = f.film_id
+GROUP BY s.store_id;
+
+--3) : 
+SELECT 
+    s.store_id,
+    SUM(f.length) AS total_minutes,
+    ROUND(SUM(f.length) / 60.0, 2) AS total_hours
+FROM store s
+JOIN inventory i ON s.store_id = i.store_id
+JOIN film f ON i.film_id = f.film_id
+LEFT JOIN rental r ON i.inventory_id = r.inventory_id
+WHERE r.return_date IS NOT NULL OR r.rental_id IS NULL
+GROUP BY s.store_id;
+
+--4) :
+SELECT DISTINCT c.customer_id, c.first_name, c.last_name, ci.city
+FROM customer c
+JOIN address a ON c.address_id = a.address_id
+JOIN city ci ON a.city_id = ci.city_id
+WHERE ci.city_id IN (
+    SELECT a2.city_id
+    FROM store s
+    JOIN address a2 ON s.address_id = a2.address_id
+);
+
+--5) :
+SELECT DISTINCT c.customer_id, c.first_name, c.last_name, co.country
+FROM customer c
+JOIN address a ON c.address_id = a.address_id
+JOIN city ci ON a.city_id = ci.city_id
+JOIN country co ON ci.country_id = co.country_id
+WHERE co.country_id IN (
+    SELECT DISTINCT co2.country_id
+    FROM store s
+    JOIN address a2 ON s.address_id = a2.address_id
+    JOIN city ci2 ON a2.city_id = ci2.city_id
+    JOIN country co2 ON ci2.country_id = co2.country_id
+);
+
+--6) : 
+SELECT SUM(f.length) AS total_safe_minutes
+FROM film f
+WHERE f.film_id NOT IN (
+    SELECT fc.film_id
+    FROM film_category fc
+    JOIN category c ON fc.category_id = c.category_id
+    WHERE LOWER(c.name) = 'horror'
+)
+AND LOWER(f.title) NOT SIMILAR TO '%(beast|monster|ghost|dead|zombie|undead)%'
+AND LOWER(f.description) NOT SIMILAR TO '%(beast|monster|ghost|dead|zombie|undead)%';
+
+
+--7) :
+SELECT 
+    SUM(f.length) AS total_minutes,
+    ROUND(SUM(f.length) / 60.0, 2) AS total_hours,
+    ROUND(SUM(f.length) / 1440.0, 2) AS total_days
+FROM film f;
+
+SELECT 
+    SUM(f.length) AS total_safe_minutes,
+    ROUND(SUM(f.length) / 60.0, 2) AS total_safe_hours,
+    ROUND(SUM(f.length) / 1440.0, 2) AS total_safe_days
+FROM film f
+WHERE f.film_id NOT IN (
+    SELECT fc.film_id
+    FROM film_category fc
+    JOIN category c ON fc.category_id = c.category_id
+    WHERE LOWER(c.name) = 'horror'
+)
+AND LOWER(f.title) NOT SIMILAR TO '%(beast|monster|ghost|dead|zombie|undead)%'
+AND LOWER(f.description) NOT SIMILAR TO '%(beast|monster|ghost|dead|zombie|undead)%';
+
+
+--Exercice Xp Ninja : 
+
+--1) :
+SELECT DISTINCT f.film_id, f.title, f.rating
+FROM film f
+JOIN inventory i ON f.film_id = i.film_id
+LEFT JOIN rental r ON i.inventory_id = r.inventory_id
+WHERE f.rating IN ('G', 'PG')
+  AND (
+    r.return_date IS NOT NULL  -- les films retournés
+    OR r.rental_id IS NULL     -- les films jamais loués
+  );
+
+--2) : 
+CREATE TABLE waiting_list (
+    waiting_id SERIAL PRIMARY KEY,
+    child_name VARCHAR(100) NOT NULL,
+    film_id INT NOT NULL,
+    request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Clé étrangère vers la table film
+    FOREIGN KEY (film_id) REFERENCES film(film_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+--3) : -- Exemple d’enfants en attente de films pour enfants (G ou PG)
+
+INSERT INTO waiting_list (child_name, film_id) VALUES
+('Lina', 1),
+('Adam', 1),
+('Sara', 2),
+('Youssef', 2),
+('Maya', 2),
+('Ali', 3);
+
+SELECT f.title, COUNT(w.waiting_id) AS number_waiting
+FROM waiting_list w
+JOIN film f ON w.film_id = f.film_id
+WHERE f.rating IN ('G', 'PG')
+GROUP BY f.title
+ORDER BY number_waiting DESC;
