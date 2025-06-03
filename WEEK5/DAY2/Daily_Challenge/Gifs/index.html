@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Giphy GIFs</title>
+  <style>
+    .gif-container { display: flex; flex-wrap: wrap; gap: 16px; }
+    .gif-card { position: relative; display: inline-block; margin: 8px; }
+    .delete-btn { position: absolute; top: 4px; right: 4px; }
+    #delete-all { margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <h2>Giphy Random Category</h2>
+  <form id="gif-form">
+    <input type="text" id="category-input" placeholder="Enter a category..." required>
+    <button type="submit">Get Random GIF</button>
+  </form>
+  <button id="delete-all">DELETE ALL</button>
+  <div class="gif-container" id="gif-container"></div>
+  <script src="app.js"></script>
+</body>
+</html>
