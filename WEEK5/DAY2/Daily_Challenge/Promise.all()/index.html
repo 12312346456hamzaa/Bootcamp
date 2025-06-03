@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sunrise for Two Cities</title>
+</head>
+<body>
+  <h2>Find Sunrise Times</h2>
+  <form id="sunrise-form">
+    <fieldset>
+      <legend>City 1</legend>
+      <input type="number" id="lat1" step="any" placeholder="Latitude 1" required>
+      <input type="number" id="lng1" step="any" placeholder="Longitude 1" required>
+    </fieldset>
+    <fieldset>
+      <legend>City 2</legend>
+      <input type="number" id="lat2" step="any" placeholder="Latitude 2" required>
+      <input type="number" id="lng2" step="any" placeholder="Longitude 2" required>
+    </fieldset>
+    <button type="submit">Get Sunrise Times</button>
+  </form>
+  <div id="result"></div>
+  <script src="app.js"></script>
+</body>
+</html>
