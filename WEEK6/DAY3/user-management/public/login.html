@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body { font-family: serif; }
+    label { display: block; margin: 8px 0 2px;}
+    input { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Login :</h1>
+  <form id="loginForm">
+    <label>Username <input name="username" type="text" required></label>
+    <label>Password <input name="password" type="password" required></label>
+    <button type="submit" id="submitBtn" disabled>Login</button>
+  </form>
+  <p id="msg"></p>
+  <script>
+    const form = document.getElementById('loginForm');
+    const msg = document.getElementById('msg');
+    const btn = document.getElementById('submitBtn');
+
+    // Enable button only if all fields are filled
+    form.addEventListener('input', () => {
+      btn.disabled = ![...form.elements].every(el => el.value && el.type !== "submit");
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.textContent = '';
+      const data = Object.fromEntries(new FormData(form));
+      const resp = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const res = await resp.json();
+      msg.textContent = res.message;
+    });
+  </script>
+</body>
+</html>
