@@ -1,0 +1,22 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+form {
+  background-color: #deb887;
+  padding: 20px;
+}
+
+h1 {
+  background-color: #3a3535;
+  color: white;
+  padding: 10px;
+}
+
+.info {
+  background-color: #0e4e4f;
+  color: white;
+  padding: 20px;
+}
