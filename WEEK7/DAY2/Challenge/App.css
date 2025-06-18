@@ -1,0 +1,35 @@
+.App {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin-top: 50px;
+}
+
+h1 {
+  color: #222;
+  margin-bottom: 30px;
+}
+
+.card {
+  background-color: #ffe7c4;
+  margin: 10px auto;
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card button {
+  background: none;
+  border: none;
+  color: green;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.card button:hover {
+  text-decoration: underline;
+}
