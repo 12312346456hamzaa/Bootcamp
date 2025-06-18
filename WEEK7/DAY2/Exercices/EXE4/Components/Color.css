@@ -1,0 +1,30 @@
+.color-container {
+  font-family: Arial, sans-serif;
+  margin: 30px auto;
+  text-align: center;
+  width: 400px;
+}
+
+.color-container h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.color-container span {
+  font-style: italic;
+}
+
+.color-container button {
+  margin-top: 15px;
+  padding: 8px 15px;
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.color-container button:hover {
+  background-color: #0056b3;
+}
