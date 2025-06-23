@@ -1,0 +1,34 @@
+.calculator {
+  text-align: center;
+  background-color: #2c003e;
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 300px;
+  margin: 50px auto;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+input, select {
+  padding: 10px;
+  margin: 10px;
+  font-size: 1.2rem;
+  border-radius: 6px;
+  border: none;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  background-color: #7300e6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+h3 {
+  font-size: 2rem;
+  margin-top: 20px;
+}
