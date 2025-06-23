@@ -1,0 +1,17 @@
+.App {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin-top: 50px;
+}
+
+input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 60%;
+  max-width: 300px;
+}
+
+p {
+  margin-top: 1rem;
+  font-weight: bold;
+}
